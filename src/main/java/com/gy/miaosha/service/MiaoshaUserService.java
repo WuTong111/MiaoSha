@@ -7,11 +7,19 @@ package com.gy.miaosha.service;
 
 import com.gy.miaosha.dao.MiaoshaUserDao;
 import com.gy.miaosha.domain.MiaoshaUser;
+import com.gy.miaosha.exception.GlobalException;
+import com.gy.miaosha.redis.MiaoshaUserKey;
+import com.gy.miaosha.redis.RedisService;
 import com.gy.miaosha.result.CodeMsg;
 import com.gy.miaosha.util.MD5Util;
+import com.gy.miaosha.util.UUIDUtil;
 import com.gy.miaosha.vo.LoginVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Description: 该类的功能描述
@@ -22,23 +30,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class MiaoshaUserService {
 
+    public static final String COOKI_NAME_TOKEN = "token";
     @Autowired
     MiaoshaUserDao miaoshaUserDao;
+    @Autowired
+    RedisService redisService;
 
     public MiaoshaUser getById(long id){
         return miaoshaUserDao.getById(id);
     }
 
-    public CodeMsg login(LoginVO loginVO) {
+    public boolean login(HttpServletResponse response,LoginVO loginVO) {
         if(loginVO == null){
-            return CodeMsg.SERVER_ERRO;
+            throw new GlobalException(CodeMsg.SERVER_ERRO);
         }
         String mobile = loginVO.getMobile();
         String formPass = loginVO.getPassword();
         //判断手机号是否存在
         MiaoshaUser user = getById(Long.parseLong(mobile));
         if(user == null){
-            return CodeMsg.MOBILE_NOT_EXIST;
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
         //验证密码
         String dbPass = user.getPassword();
@@ -46,8 +57,34 @@ public class MiaoshaUserService {
 
         String formToDBPass = MD5Util.formPassToDBPass(formPass,dbSalt);
         if(!formToDBPass.equals(dbPass)) {
-            return CodeMsg.PASSWORD_ERROR;
+            throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        return CodeMsg.SUCCESS;
+
+        //生成cookie
+        addCookie(user, response);
+        return true;
     }
+
+    public MiaoshaUser getByToken(HttpServletResponse response, String token) {
+        if(StringUtils.isEmpty(token)){
+            return null;
+        }
+        MiaoshaUser miaoshaUser = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
+        //延长有效期
+        if(miaoshaUser != null){
+            addCookie(miaoshaUser, response);
+        }
+        return miaoshaUser;
+
+    }
+
+    private void addCookie(MiaoshaUser user, HttpServletResponse response){
+        String token = UUIDUtil.uuid();
+        //需要标识用户所以需要写入到redis中
+        redisService.set(MiaoshaUserKey.token, token, user);  //tk, uuid
+        Cookie cookie = new Cookie(COOKI_NAME_TOKEN ,token);  //cookie中存的是uuid        cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds());
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
 }

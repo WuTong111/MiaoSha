@@ -53,7 +53,7 @@ public class RedisService {
                 return false;
             }
             //生成真正的key
-            String realKey = prefix + "" + key;
+            String realKey = prefix.getPrefix() + key;
             int seconds = prefix.expireSeconds();
             if(seconds <= 0){
                 jedis.set(realKey,str);

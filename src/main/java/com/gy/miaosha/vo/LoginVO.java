@@ -5,6 +5,11 @@
  */
 package com.gy.miaosha.vo;
 
+import com.gy.miaosha.validator.IsMobile;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * @Description: 该类的功能描述
  * @author G
@@ -12,7 +17,11 @@ package com.gy.miaosha.vo;
  * Created on 2018/12/10 13:22
  */
 public class LoginVO {
+    @NotNull
+    @IsMobile
     String mobile;
+    @NotNull
+    @Length(min = 32)
     String password;
 
     public String getMobile() {

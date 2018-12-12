@@ -9,12 +9,16 @@ import com.gy.miaosha.result.CodeMsg;
 import com.gy.miaosha.result.Result;
 import com.gy.miaosha.service.MiaoshaUserService;
 import com.gy.miaosha.vo.LoginVO;
+import com.sun.deploy.net.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * @Description: 该类的功能描述
@@ -38,13 +42,11 @@ public class LoginController {
 
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result<CodeMsg> doLogin(LoginVO loginVO){
+    public Result<Boolean> doLogin(HttpServletResponse response,@Valid LoginVO loginVO){
         log.info(loginVO.toString());
+        //参数校验
         //登陆
-        CodeMsg cm = miaoshaUserService.login(loginVO);
-        if (cm.getCode() == 0){
-            return Result.success(CodeMsg.SUCCESS);
-        }
-        return Result.error(cm);
+        miaoshaUserService.login(response, loginVO);
+        return Result.success(true);
     }
 }
