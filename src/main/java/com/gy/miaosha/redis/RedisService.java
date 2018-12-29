@@ -67,6 +67,28 @@ public class RedisService {
         }
     }
 
+    /**
+    *  删除
+    * @param:参数描述
+    * @return：返回结果描述
+    * @throws：异常描述
+    *
+    * @version: v1.0.0
+    */
+    public <T> boolean delete(KeyPrefix prefix, String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String realKey = prefix.getPrefix() + key;
+            long ret = jedis.del(realKey);
+            return  ret > 0;
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+
     public <T> boolean exits(KeyPrefix prefix, String key){
         Jedis jedis = null;
         try{
@@ -78,6 +100,7 @@ public class RedisService {
             returnToPool(jedis);
         }
     }
+
 
     public <T> Long incr(KeyPrefix prefix, String key){
         Jedis jedis = null;

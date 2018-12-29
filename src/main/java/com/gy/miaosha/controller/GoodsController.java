@@ -50,6 +50,12 @@ public class GoodsController {
     @Autowired
     ThymeleafViewResolver thymeleafViewResolver;
 
+    /**
+    * QPS : 1228  load: 15 mysql heigh
+     *  5000*10
+     *  QPS : 2884
+     *  5000*10 ,load(系统负载 5)
+    */
     // 页面缓存
     @RequestMapping(value = "/to_list", produces = "text/html")
     @ResponseBody
