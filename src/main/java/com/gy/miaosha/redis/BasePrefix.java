@@ -31,6 +31,7 @@ public abstract class BasePrefix implements KeyPrefix {
         return expireSeconds;
     }
 
+    //不同模块 类名+prefix
     @Override
     public String getPrefix() {
         String className = getClass().getSimpleName();

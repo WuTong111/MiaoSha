@@ -11,7 +11,6 @@ package com.gy.miaosha.redis;
  * Created on 2018/12/9 15:54
  */
 public interface KeyPrefix {
-    public int expireSeconds();
-    public String getPrefix();
-
+    int expireSeconds();
+    String getPrefix();
 }
