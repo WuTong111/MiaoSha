@@ -57,9 +57,8 @@ public class GoodsController {
      *  5000*10 ,load(系统负载 5)
     */
     // 页面缓存
-    @RequestMapping(value = "/to_list", produces = "text/html")
-    @ResponseBody
-    public String loLogin(HttpServletRequest request,
+    @RequestMapping(value = "/to_list")
+    public String list(HttpServletRequest request,
             HttpServletResponse response, Model model,
 //                          @CookieValue(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String cookieToken,
 //                          @RequestParam(value = MiaoshaUserService.COOKI_NAME_TOKEN, required = false) String paramToken,
@@ -69,29 +68,29 @@ public class GoodsController {
 //        }
 //        String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;
 //        MiaoshaUser miaoshaUser = userService.getByToken(response, token);
-        model.addAttribute("user", user);
-        //1. 取缓存
-        String html = redisService.get(GoodsKey.getGoodsList, "", String.class);
-        if(!StringUtils.isEmpty(html)){
-            return html;
-        }
+//        model.addAttribute("user", user);
+//        //1. 取缓存
+//        String html = redisService.get(GoodsKey.getGoodsList, "", String.class);
+//        if(!StringUtils.isEmpty(html)){
+//            return html;
+//        }
         List<GoodsVo> goodsList = goodsService.listGoodsVo();
         model.addAttribute("goodsList", goodsList);
-//        return "goods_list";
-        SpringWebContext ctx = new SpringWebContext(request, response,
-                request.getServletContext(), request.getLocale(),
-                model.asMap(), applicationContext);
-        //手动渲染
-        html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
-        if(!StringUtils.isEmpty(html)){
-            redisService.set(GoodsKey.getGoodsList, "", html);
-        }
-        return html;
+        return "goods_list";
+//        SpringWebContext ctx = new SpringWebContext(request, response,
+//                request.getServletContext(), request.getLocale(),
+//                model.asMap(), applicationContext);
+//        //手动渲染
+//        html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
+//        if(!StringUtils.isEmpty(html)){
+//            redisService.set(GoodsKey.getGoodsList, "", html);
+//        }
+//        return html;
     }
 
     //有值传入就叫url缓存
     @RequestMapping(value = "/to_detail/{goodsId}", produces = "text/html")
-    @ResponseBody
+//    @ResponseBody
     public String detail(HttpServletRequest request,
                          HttpServletResponse response,
                          Model model, MiaoshaUser user,
@@ -126,15 +125,15 @@ public class GoodsController {
         }
         model.addAttribute("miaoshaStatus", miaoshaStatus);
         model.addAttribute("remainSeconds", remainSeconds);
-//        return "goods_detail";
-        SpringWebContext ctx = new SpringWebContext(request, response,
-                request.getServletContext(), request.getLocale(),
-                model.asMap(), applicationContext);
-        //手动渲染
-        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", ctx);
-        if(!StringUtils.isEmpty(html)){
-            redisService.set(GoodsKey.getGoodsDetail, "" + goodsId, html);
-        }
-        return html;
+        return "goods_detail";
+//        SpringWebContext ctx = new SpringWebContext(request, response,
+//                request.getServletContext(), request.getLocale(),
+//                model.asMap(), applicationContext);
+//        //手动渲染
+//        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", ctx);
+//        if(!StringUtils.isEmpty(html)){
+//            redisService.set(GoodsKey.getGoodsDetail, "" + goodsId, html);
+//        }
+//        return html;
     }
 }
