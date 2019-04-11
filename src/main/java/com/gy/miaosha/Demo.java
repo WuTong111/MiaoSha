@@ -5,8 +5,12 @@
  */
 package com.gy.miaosha;
 
-import com.gy.miaosha.domain.Goods;
-import com.gy.miaosha.service.GoodsService;
+
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @Description: 测试
@@ -15,9 +19,19 @@ import com.gy.miaosha.service.GoodsService;
  * Created on 2019/3/7 10:47
  */
 public class Demo {
-    public static void main(String[] args) {
-        GoodsService goodsService = new GoodsService();
-        goodsService.listGoodsVo();
+    public static void main(String[] args) throws IOException {
+       //第一步行为参数化
+        String result = processFile((BufferedReader br) -> br.readLine() + br.readLine());
+    }
+
+    private static String processFile(BufferedReaderProcessor brp) throws IOException{
+        return null;
     }
 
 }
+
+@FunctionalInterface
+interface BufferedReaderProcessor{
+    String process(BufferedReader b) throws Exception;
+}
+

@@ -67,7 +67,7 @@ public class MiaoshaUserService {
         return true;
     }
 
-    public boolean login(HttpServletResponse response,LoginVO loginVO) {
+    public String login(HttpServletResponse response,LoginVO loginVO) {
         if(loginVO == null){
             throw new GlobalException(CodeMsg.SERVER_ERRO);
         }
@@ -90,7 +90,7 @@ public class MiaoshaUserService {
         //生成cookie
         String token = UUIDUtil.uuid();
         addCookie(user, token ,response);
-        return true;
+        return token;
     }
 
     public MiaoshaUser getByToken(HttpServletResponse response, String token) {
