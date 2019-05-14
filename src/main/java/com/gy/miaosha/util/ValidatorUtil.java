@@ -17,13 +17,13 @@ import java.util.regex.Pattern;
  * Created on 2018/12/10 13:48
  */
 public class ValidatorUtil {
-   private static final Pattern mobile_pattern = Pattern.compile("1\\d{10}");
+   private static final Pattern MOBILE_PATTERN = Pattern.compile("1\\d{10}");
 
    public static boolean isMobile(String src){
        if(src == null){
            return false;
        }
-       Matcher matcher = mobile_pattern.matcher(src);
+       Matcher matcher = MOBILE_PATTERN.matcher(src);
        return matcher.matches();
    }
 

@@ -6,6 +6,7 @@
 package com.gy.miaosha.controller;
 
 import com.gy.miaosha.domain.User;
+import com.gy.miaosha.rabbitmq.MQSender;
 import com.gy.miaosha.redis.RedisService;
 import com.gy.miaosha.redis.UserKey;
 import com.gy.miaosha.result.Result;
@@ -32,6 +33,9 @@ public class SampleController {
 
     @Autowired
     RedisService redisService;
+
+    @Autowired
+    MQSender sender;
 
     //测试SpringBoot是否能执行
     @RequestMapping("/thymeleaf")

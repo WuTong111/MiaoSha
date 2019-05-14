@@ -40,7 +40,7 @@ public class UserUtil {
         System.out.println("create user");
         //插入数据库
 //        Connection conn = DBUtil.getConn();
-//        String sql = "update miaosha_user(login_count, nickname, register_date, salt, password, id) values(?,?,?,?,?,?)";
+//        String sql = "insert miaosha_user(login_count, nickname, register_date, salt, password, id) values(?,?,?,?,?,?)";
 //        PreparedStatement pstmt = conn.prepareStatement(sql);
 //        for(int i=0;i<users.size();i++){
 //            MiaoshaUser user = users.get(i);
@@ -77,7 +77,7 @@ public class UserUtil {
             out.flush();
             InputStream inputStream = co.getInputStream();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            byte buff[] = new byte[1024];
+            byte[] buff = new byte[1024];
             int len = 0;
             while ((len = inputStream.read(buff)) >= 0){
                 bout.write(buff, 0, len);

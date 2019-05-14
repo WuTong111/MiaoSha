@@ -6,11 +6,8 @@
 package com.gy.miaosha;
 
 
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * @Description: 测试
@@ -21,7 +18,11 @@ import java.util.*;
 public class Demo {
     public static void main(String[] args) throws IOException {
        //第一步行为参数化
-        String result = processFile((BufferedReader br) -> br.readLine() + br.readLine());
+        LinkedList list1 = new LinkedList();
+        list1.add("123");
+        LinkedList list = new LinkedList(list1);
+        System.out.println(list.get(0));
+
     }
 
     private static String processFile(BufferedReaderProcessor brp) throws IOException{
@@ -30,8 +31,6 @@ public class Demo {
 
 }
 
-@FunctionalInterface
-interface BufferedReaderProcessor{
-    String process(BufferedReader b) throws Exception;
+class BufferedReaderProcessor{
 }
 

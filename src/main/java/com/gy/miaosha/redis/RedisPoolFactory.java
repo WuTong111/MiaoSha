@@ -25,7 +25,7 @@ public class RedisPoolFactory {
 
 //    自动注入到容器
     @Bean
-    public JedisPool JedisPoolFactory(){
+    public JedisPool jedisPoolFactory(){
         System.out.println("RedisPoolFactory我已经自动加载");
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());

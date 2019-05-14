@@ -109,9 +109,10 @@ public class MiaoshaUserService {
 
     private void addCookie(MiaoshaUser user, String token, HttpServletResponse response){
 
-        //需要标识用户所以需要写入到redis中
-        redisService.set(MiaoshaUserKey.token, token, user);  //tk, uuid
-        Cookie cookie = new Cookie(COOKI_NAME_TOKEN ,token);  //cookie中存的是uuid        cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds());
+        //需要标识用户所以需要写入到redis中 tk, uuid
+        redisService.set(MiaoshaUserKey.token, token, user);
+        //cookie中存的是uuid        cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds());
+        Cookie cookie = new Cookie(COOKI_NAME_TOKEN ,token);
         cookie.setPath("/");
         response.addCookie(cookie);
     }
