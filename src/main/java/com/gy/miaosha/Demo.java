@@ -7,6 +7,7 @@ package com.gy.miaosha;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -16,17 +17,23 @@ import java.util.LinkedList;
  * Created on 2019/3/7 10:47
  */
 public class Demo {
+    private static HashMap<Long, Boolean> localOverMap =  new HashMap();
     public static void main(String[] args) throws IOException {
        //第一步行为参数化
-        LinkedList list1 = new LinkedList();
-        list1.add("123");
-        LinkedList list = new LinkedList(list1);
-        System.out.println(list.get(0));
+        System.out.println();
 
     }
 
-    private static String processFile(BufferedReaderProcessor brp) throws IOException{
-        return null;
+
+
+
+
+
+
+
+
+    private Boolean processFile() throws IOException{
+        return localOverMap.get(1);
     }
 
 }

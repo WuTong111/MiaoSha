@@ -59,8 +59,4 @@ public class OrderController {
         vo.setGoods(goods);
         return Result.success(vo);
     }
-
-
-
-
 }
